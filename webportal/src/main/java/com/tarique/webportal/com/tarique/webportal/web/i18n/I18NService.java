@@ -1,5 +1,7 @@
 package com.tarique.webportal.com.tarique.webportal.web.i18n;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -13,25 +15,34 @@ import java.util.Locale;
 @Service
 public class I18NService {
 
+    /**
+     * The Application logger
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(I18NService.class);
+
     @Autowired
     private MessageSource messageSource;
 
     /**
      * Returns a message for a given messageId and the default locale in the session context
+     *
      * @param messageId the key to the message resource file
      */
-    public String getMessage(String messageId){
-        Locale locale  = LocaleContextHolder.getLocale();
+    public String getMessage(String messageId) {
+        LOG.info("Returning i18n text for messageId {}", messageId);
+        Locale locale = LocaleContextHolder.getLocale();
         return getMessage(messageId, locale);
     }
 
     /**
      * Returns a message of the given messageID and Locale
-     * @param messageId  key to the messagees resource file
-     * @param locale The locale
+     *
+     * @param messageId key to the messagees resource file
+     * @param locale    The locale
      */
 
-    public String getMessage(String messageId, Locale locale){
+    public String getMessage(String messageId, Locale locale) {
+        LOG.info("Returning message for locale {}", locale);
         return messageSource.getMessage(messageId, null, locale);
     }
 }
