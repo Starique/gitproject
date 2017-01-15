@@ -1,0 +1,19 @@
+ERROR:
+No identifier specified for entity:
+
+
+ERROR:
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+Fri Jan 13 05:46:11 EST 2017
+There was an unexpected error (type=Forbidden, status=403).
+Invalid CSRF Token 'null' was found on the request parameter '_csrf' or header 'X-CSRF-TOKEN'.
+
+SOLUTION:
+In the security configure class I have specfied contains 'env' instead of contains 'dev'
+
+
+ERROR:
+Seeing no tables
+
+SOLUTION: 
+Specify the db name = jdbc:h2:mem:testdb (JDBC URL)

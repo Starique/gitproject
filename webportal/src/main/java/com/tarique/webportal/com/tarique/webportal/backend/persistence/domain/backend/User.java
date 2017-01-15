@@ -24,7 +24,7 @@ public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     private String username;
     private String password;
@@ -34,7 +34,8 @@ public class User implements Serializable{
     private String firstName;
 
     @Column(name = "last_name")
-    private String lastname;
+    private String lastName;
+
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -55,11 +56,11 @@ public class User implements Serializable{
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -95,12 +96,12 @@ public class User implements Serializable{
         this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhoneNumber() {
@@ -159,6 +160,17 @@ public class User implements Serializable{
         this.plan = plan;
     }
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<UserRole> userRoles = new HashSet<>();
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -171,17 +183,6 @@ public class User implements Serializable{
 
     @Override
     public int hashCode() {
-        return id;
-    }
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<UserRole> userRoles = new HashSet<>();
-
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
+        return (int) (id ^ (id >>> 32));
     }
 }
