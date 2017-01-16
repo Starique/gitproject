@@ -1,6 +1,6 @@
 package com.tarique.webportal;
 
-import com.tarique.webportal.com.tarique.webportal.web.i18n.I18NService;
+import com.tarique.webportal.web.i18n.I18NService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

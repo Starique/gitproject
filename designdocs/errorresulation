@@ -17,3 +17,7 @@ Seeing no tables
 
 SOLUTION: 
 Specify the db name = jdbc:h2:mem:testdb (JDBC URL)
+
+
+ERROR:
+Embedded Database - Prevent automatic dropping of tables
