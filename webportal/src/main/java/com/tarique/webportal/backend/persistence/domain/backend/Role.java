@@ -44,7 +44,12 @@ public class Role implements Serializable{
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    /**
+     * We are making the fetch type lazy because if we want to delete a user role
+     * We don't want the application to to try and dlete a role too
+     */
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserRole> userRoles = new HashSet<>();
 
     public Set<UserRole> getUserRoles() {
@@ -53,5 +58,20 @@ public class Role implements Serializable{
 
     public void setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Role role = (Role) o;
+
+        return id == role.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

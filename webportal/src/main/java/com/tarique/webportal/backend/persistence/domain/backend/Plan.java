@@ -56,14 +56,11 @@ public class Plan implements Serializable{
 
         Plan plan = (Plan) o;
 
-        if (id != plan.id) return false;
-        return name != null ? name.equals(plan.name) : plan.name == null;
+        return id == plan.id;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return id;
     }
 }

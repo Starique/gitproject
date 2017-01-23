@@ -15,9 +15,22 @@ import java.util.Set;
 
 /**
  * Created by Mehnuma on 1/16/2017.
+ *
+ * Step 1 annotate with @service annotation
+ * Step 2 define method that we want to service to do
+ * Step 3 Autowire the repository classes
+ * Step 4 Annotate the class with @transactional readonly=true
+ *        This is a best practice for jpa. By default we should use @transactional with readonly
+ *        to minimize locking and then use @Transactional with no arguments for the methods which
+ *        update and write to the database. Although the JPA repositories are transactional by default
+ *        placing hte @transactional on method overrides the jpa transactional.
+ * Step 5
  */
 @Service
+
+
 @Transactional(readOnly = true)
+
 public class UserService {
     @Autowired
     RoleRepository roleRepository;

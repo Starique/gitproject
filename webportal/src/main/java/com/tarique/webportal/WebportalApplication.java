@@ -31,12 +31,11 @@ public class WebportalApplication implements CommandLineRunner{
 		SpringApplication.run(WebportalApplication.class, args);
 	}
 
-
 	@Override
 	public void run(String... strings) throws Exception {
 		User user = UserUtils.createBasicUser();
 		Set<UserRole> userRoleSet = new HashSet<>();
-		UserRole userRole = new UserRole(user, new Role(RoleEnum.BASIC));
+		UserRole userRole = new UserRole(user, new Role(RoleEnum.PRO));
 		userRoleSet.add(userRole);
 		LOG.debug("Creating user with username {}", user.getUsername());
 		userService.createUser(user, PlanEnum.BASIC_PLAN, userRoleSet);

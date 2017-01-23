@@ -6,10 +6,9 @@ import com.tarique.webportal.backend.persistence.domain.backend.User;
  * Created by Mehnuma on 1/16/2017.
  */
 public class UserUtils {
-    public UserUtils() {
+    private UserUtils() {
         throw new AssertionError("Not instantiable!!");
     }
-
     /**
      * @return
      */

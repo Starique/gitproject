@@ -22,6 +22,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.tarique.webportal.utils.UserUtils.createBasicUser;
+
 /**
  * Created by Mehnuma on 1/14/2017.
  */
@@ -47,7 +49,7 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void testCreateNewPlan() throws Exception {
-        Plan basicplan = createBasicPlan(PlanEnum.BASIC_PLAN);
+        Plan basicplan = createPlan(PlanEnum.BASIC_PLAN);
         planRepository.save(basicplan);
 
         Plan retrievedPlan = planRepository.findOne(PlanEnum.BASIC_PLAN.getId());
@@ -56,37 +58,16 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void testCreateNewRole() throws Exception {
-        Role basicRole = createBasicRole(RoleEnum.BASIC);
+        Role basicRole = createRole(RoleEnum.BASIC);
         roleRepository.save(basicRole);
 
         Role retrievedRole = roleRepository.findOne(RoleEnum.BASIC.getId());
         Assert.assertNotNull(retrievedRole);
 
-
     }
-
     @Test
     public void testCreateNewUser() throws Exception {
-        Plan plan = createBasicPlan(PlanEnum.BASIC_PLAN);
-        planRepository.save(plan);
-
-        User basicUser = UserUtils.createBasicUser();
-        basicUser.setPlan(plan);
-
-        Role basicRole = createBasicRole(RoleEnum.BASIC);
-
-        Set<UserRole> userRoles = new HashSet<>();
-        UserRole userRole = new UserRole(basicUser, basicRole);
-        userRoles.add(userRole);
-
-        basicUser.getUserRoles().addAll(userRoles);
-
-        for (UserRole role : userRoles) {
-            Role role1 = role.getRole();
-            roleRepository.save(role1);
-        }
-        basicUser = userRepository.save(basicUser);
-
+        User basicUser = crateUser();
         User retrievedUser = userRepository.findOne(basicUser.getId());
         Assert.assertNotNull(retrievedUser);
 
@@ -96,22 +77,56 @@ public class RepositoriesIntegrationTest {
         for (UserRole ur : userroels) {
             Assert.assertNotNull(ur.getRole());
         }
-
     }
 
+    @Test
+    public void testDeleteUser() throws Exception {
+        User basicUser = crateUser();
+        userRepository.delete(basicUser.getId());
+    }
+
+    @Test
+    public void testGetByUserName() throws Exception {
+        //User basicUser = crateUser();
+        User retrivedUser = userRepository.findByUsername("basicUser");
+        Assert.assertNotNull(retrivedUser);
+
+        User nullUser = userRepository.findByUsername("tarique");
+        Assert.assertTrue(nullUser == null);
+
+    }
 
     /**
      * @return
      */
-    private Role createBasicRole(RoleEnum roleEnum) {
+    private Role createRole(RoleEnum roleEnum) {
         return new Role(roleEnum);
     }
 
     /**
      * @return
      */
-    private Plan createBasicPlan(PlanEnum planEnum) {
+    private Plan createPlan(PlanEnum planEnum) {
        return new Plan(planEnum);
     }
 
+    private User crateUser() {
+        Plan basicPlan = createPlan(PlanEnum.BASIC_PLAN);
+        planRepository.save(basicPlan);
+
+        User basicUser = UserUtils.createBasicUser();
+        basicUser.setPlan(basicPlan);
+
+        Role basicRole = createRole(RoleEnum.BASIC);
+        roleRepository.save(basicRole);
+
+        Set<UserRole> userRoles = new HashSet<>();
+
+        UserRole userRole = new UserRole(basicUser, basicRole);
+        userRoles.add(userRole);
+
+        basicUser.getUserRoles().addAll(userRoles);
+        basicUser = userRepository.save(basicUser);
+        return basicUser;
+    }
 }
