@@ -21,13 +21,13 @@ public class UserUtils {
         user.setUsername(userName);
         user.setPassword("secret");
         user.setEmail(email);
-        user.setFirstName("firstName");
-        user.setLastName("lastName");
-        user.setPhoneNumber("123456789123");
+        user.setFirstName("Tarique");
+        user.setLastName("Syed");
+        user.setPhoneNumber("(516)681-3921");
         user.setCountry("USA");
         user.setEnabled(true);
         user.setDescription("A basic user");
-        user.setProfileImageUrl("https://blabla.images.com/basicuser");
+        user.setProfileImageUrl("https://s.gravatar.com/avatar/b8daabc029a0c3fce081230907c1ece3?s=80");
         return user;
     }
 }

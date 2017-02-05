@@ -100,7 +100,7 @@ public class RepositoriesIntegrationTest {
     @Test
     public void testGetByUserName() throws Exception {
         //User basicUser = crateUser();
-        User retrivedUser = userRepository.findByUsername("proUser");
+        User retrivedUser = userRepository.findByUsername("admin");
         Assert.assertNotNull(retrivedUser);
 
         User nullUser = userRepository.findByUsername("tarique");
