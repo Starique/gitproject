@@ -10,7 +10,9 @@ import com.tarique.webportal.enums.PlanEnum;
 import com.tarique.webportal.enums.RoleEnum;
 import com.tarique.webportal.utils.UserUtils;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,9 +31,16 @@ public class UserServiceIntegrationTest {
     @Autowired
     private UserService userService;
 
+    @Rule
+    public TestName testName = new TestName();
+
+
     @Test
     public void testCreateUser() throws Exception {
-        User basicUser = UserUtils.createBasicUser();
+        String userName = testName.getMethodName();
+        String email    = userName + "@gmail.com";
+
+        User basicUser = UserUtils.createBasicUser(userName, email);
         Role basicRole = new Role(RoleEnum.BASIC);
 
         UserRole userRole = new UserRole(basicUser, basicRole);

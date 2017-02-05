@@ -33,7 +33,10 @@ public class WebportalApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... strings) throws Exception {
-		User user = UserUtils.createBasicUser();
+		String userName = "proUser";
+		String email   = userName + "@gmail.com";
+
+		User user = UserUtils.createBasicUser(userName, email);
 		Set<UserRole> userRoleSet = new HashSet<>();
 		UserRole userRole = new UserRole(user, new Role(RoleEnum.PRO));
 		userRoleSet.add(userRole);

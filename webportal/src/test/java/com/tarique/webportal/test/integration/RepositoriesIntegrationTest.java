@@ -13,7 +13,9 @@ import com.tarique.webportal.enums.RoleEnum;
 import com.tarique.webportal.utils.UserUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +41,8 @@ public class RepositoriesIntegrationTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Rule public TestName testName = new TestName();
 
     @Before
     public void init() {
@@ -67,7 +71,11 @@ public class RepositoriesIntegrationTest {
     }
     @Test
     public void testCreateNewUser() throws Exception {
-        User basicUser = crateUser();
+        String userName = testName.getMethodName();
+        String email = userName + "@gmail.com";
+
+        User basicUser = crateUser(userName, email);
+
         User retrievedUser = userRepository.findOne(basicUser.getId());
         Assert.assertNotNull(retrievedUser);
 
@@ -81,14 +89,18 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void testDeleteUser() throws Exception {
-        User basicUser = crateUser();
+
+        String userName = testName.getMethodName();
+        String email = userName + "@gmail.com";
+
+        User basicUser = crateUser(userName, email);
         userRepository.delete(basicUser.getId());
     }
 
     @Test
     public void testGetByUserName() throws Exception {
         //User basicUser = crateUser();
-        User retrivedUser = userRepository.findByUsername("basicUser");
+        User retrivedUser = userRepository.findByUsername("proUser");
         Assert.assertNotNull(retrivedUser);
 
         User nullUser = userRepository.findByUsername("tarique");
@@ -110,11 +122,11 @@ public class RepositoriesIntegrationTest {
        return new Plan(planEnum);
     }
 
-    private User crateUser() {
+    private User crateUser(String userName, String email) {
         Plan basicPlan = createPlan(PlanEnum.BASIC_PLAN);
         planRepository.save(basicPlan);
 
-        User basicUser = UserUtils.createBasicUser();
+        User basicUser = UserUtils.createBasicUser(userName, email);
         basicUser.setPlan(basicPlan);
 
         Role basicRole = createRole(RoleEnum.BASIC);
