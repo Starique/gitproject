@@ -7,6 +7,8 @@ import com.tarique.webportal.backend.persistence.repositories.PlanRepository;
 import com.tarique.webportal.backend.persistence.repositories.RoleRepository;
 import com.tarique.webportal.backend.persistence.repositories.UserRepository;
 import com.tarique.webportal.enums.PlanEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,9 @@ public class UserService {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /* The Application Logger */
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+
 
     @Transactional
     public User createUser(User user, PlanEnum planEnum, Set<UserRole> userRoleSet) {
@@ -70,6 +75,12 @@ public class UserService {
         //Finally save the user in the Database
         user = userRepository.save(user);
         return user;
+    }
+
+    public void updatePassword(long userId, String password){
+        String encryptedpassword = bCryptPasswordEncoder.encode(password);
+        userRepository.updateUserPassword(userId, encryptedpassword);
+        LOG.debug("Updated the Passowrd for user id {} .", userId);
     }
 
 }

@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.tarique.webportal.utils.UserUtils.createBasicUser;
 
@@ -31,7 +32,7 @@ import static com.tarique.webportal.utils.UserUtils.createBasicUser;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WebportalApplication.class)
-public class UserIntegrationTest extends AbstractIntegrationTest {
+public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 
     @Rule public TestName testName = new TestName();
@@ -98,5 +99,24 @@ public class UserIntegrationTest extends AbstractIntegrationTest {
         User nullUser = userRepository.findByUsername("tarique");
         Assert.assertTrue(nullUser == null);
 
+    }
+
+    @Test
+    public void testGetUserByEmail() throws Exception {
+        User user = createUser(testName);
+
+        User retrivedUser = userRepository.findByEmail(user.getEmail());
+        Assert.assertNotNull(retrivedUser);
+        Assert.assertNotNull(retrivedUser.getId());
+    }
+
+    public void testUpdateUserPassword() throws Exception {
+        User user = createUser(testName);
+        String newPassword = UUID.randomUUID().toString();
+
+        userRepository.updateUserPassword(user.getId(), newPassword);
+
+        user = userRepository.findOne(user.getId());
+        Assert.assertEquals(newPassword, user.getPassword());
     }
 }
