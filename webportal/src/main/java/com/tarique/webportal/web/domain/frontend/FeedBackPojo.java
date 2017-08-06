@@ -8,10 +8,10 @@ import java.io.Serializable;
 public class FeedBackPojo implements Serializable{
 
     private static final long serialVersionUID = 1L;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String feedback;
+    private String email = "emailm";
+    private String firstName = "firstname";
+    private String lastName  = "lastname";
+    private String feedback  = "feedback";
 
     public String getEmail() {
         return email;
